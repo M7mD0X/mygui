@@ -2,8 +2,12 @@ local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
 local MarketplaceService = game:GetService("MarketplaceService")
 
+
+
 -- Get Game Name (Place Name)
 local gameName = MarketplaceService:GetProductInfo(game.PlaceId).Name
+
+
 
 -- Create UI
 local ScreenGui = Instance.new("ScreenGui")
@@ -15,12 +19,16 @@ local HideButton = Instance.new("TextButton")
 
 ScreenGui.Parent = game:GetService("CoreGui")
 
+
+
 -- Main UI
 MainFrame.Size = UDim2.new(0, 400, 0, 320)
 MainFrame.Position = UDim2.new(0.5, -200, 0.5, -160)
 MainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 MainFrame.BorderSizePixel = 0
 MainFrame.Parent = ScreenGui
+
+
 
 -- Title Label (Above TabHolder)
 TitleLabel.Size = UDim2.new(1, 0, 0, 25)
@@ -31,6 +39,8 @@ TitleLabel.Font = Enum.Font.SourceSansBold
 TitleLabel.TextSize = 16
 TitleLabel.Text = gameName .. " - H"
 TitleLabel.Parent = MainFrame
+
+
 
 -- Tab Holder (Top Bar, Scrollable)
 TabHolder.Size = UDim2.new(1, 0, 0, 40)
@@ -47,6 +57,8 @@ UIListLayout.FillDirection = Enum.FillDirection.Horizontal
 UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 UIListLayout.Padding = UDim.new(0, 5)
 
+
+
 -- Hide/Show Button
 HideButton.Size = UDim2.new(0, 100, 0, 30)
 HideButton.Position = UDim2.new(0, 10, 0, 10)
@@ -61,6 +73,8 @@ HideButton.MouseButton1Click:Connect(function()
     MainFrame.Visible = guiVisible
     HideButton.Text = guiVisible and "Hide GUI" or "Show GUI"
 end)
+
+
 
 -- Tabs & Pages
 local Tabs = {}
@@ -95,6 +109,38 @@ local function CreateTab(name)
     return Page
 end
 
+
+
+-- Function to Create a Button (For Any Tab)
+local function CreateButton(parent, text, callback)
+    local Button = Instance.new("TextButton")
+
+    Button.Size = UDim2.new(1, 0, 0, 40) -- Full width, 40 height
+    Button.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    Button.TextColor3 = Color3.fromRGB(255, 0, 0)
+    Button.Font = Enum.Font.SourceSansBold
+    Button.TextSize = 18
+    Button.Text = text
+    Button.Parent = parent
+
+    Button.MouseButton1Click:Connect(function()
+        callback() -- Runs the function when clicked
+    end)
+
+    return Button
+end
+
+
+
+-- Add Layout to All Tabs Automatically
+for _, page in pairs(Pages) do
+    local layout = Instance.new("UIListLayout")
+    layout.Parent = page
+    layout.Padding = UDim.new(0, 5)
+end
+
+
+
 -- Create Tabs
 local tab1 = CreateTab("Tab 1")
 local tab2 = CreateTab("Tab 2")
@@ -104,6 +150,32 @@ local settingsTab = CreateTab("Settings")
 
 -- Show first tab by default
 Pages[1].Visible = true
+
+
+
+-- Now You Can Easily Add Buttons to Any Tab!
+CreateButton(Pages[1], "Tab 1 Button", function()
+    print("Tab 1 Button clicked!")
+end)
+
+CreateButton(Pages[2], "Tab 2 Action", function()
+    print("Tab 2 Button clicked!")
+end)
+
+CreateButton(Pages[3], "Tab 3 Feature", function()
+    print("Tab 3 Button clicked!")
+end)
+
+CreateButton(Pages[4], "Tab 4 Stuff", function()
+    print("Tab 4 Button clicked!")
+end)
+
+-- Add Buttons to the Settings Tab
+CreateButton(Pages[5], "Close GUI", function()
+    ScreenGui.Enabled = false
+end)
+
+
 
 -- Drag System (Supports **MOBILE** & PC)
 local isDragging = false
