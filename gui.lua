@@ -2,12 +2,8 @@ local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
 local MarketplaceService = game:GetService("MarketplaceService")
 
-
-
 -- Get Game Name (Place Name)
 local gameName = MarketplaceService:GetProductInfo(game.PlaceId).Name
-
-
 
 -- Create UI
 local ScreenGui = Instance.new("ScreenGui")
@@ -19,16 +15,12 @@ local HideButton = Instance.new("TextButton")
 
 ScreenGui.Parent = game:GetService("CoreGui")
 
-
-
 -- Main UI
 MainFrame.Size = UDim2.new(0, 400, 0, 320)
 MainFrame.Position = UDim2.new(0.5, -200, 0.5, -160)
 MainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 MainFrame.BorderSizePixel = 0
 MainFrame.Parent = ScreenGui
-
-
 
 -- Title Label (Above TabHolder)
 TitleLabel.Size = UDim2.new(1, 0, 0, 25)
@@ -39,8 +31,6 @@ TitleLabel.Font = Enum.Font.SourceSansBold
 TitleLabel.TextSize = 16
 TitleLabel.Text = gameName .. " - H"
 TitleLabel.Parent = MainFrame
-
-
 
 -- Tab Holder (Top Bar, Scrollable)
 TabHolder.Size = UDim2.new(1, 0, 0, 40)
@@ -57,8 +47,6 @@ UIListLayout.FillDirection = Enum.FillDirection.Horizontal
 UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 UIListLayout.Padding = UDim.new(0, 5)
 
-
-
 -- Hide/Show Button
 HideButton.Size = UDim2.new(0, 100, 0, 30)
 HideButton.Position = UDim2.new(0, 10, 0, 10)
@@ -74,15 +62,13 @@ HideButton.MouseButton1Click:Connect(function()
     HideButton.Text = guiVisible and "Hide GUI" or "Show GUI"
 end)
 
-
-
 -- Tabs & Pages
 local Tabs = {}
 local Pages = {}
 
 local function CreateTab(name)
     local TabButton = Instance.new("TextButton")
-    local Page = Instance.new("Frame")
+    local Page = Instance.new("ScrollingFrame")
 
     TabButton.Size = UDim2.new(0, 100, 1, 0)
     TabButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
@@ -90,10 +76,14 @@ local function CreateTab(name)
     TabButton.Text = name
     TabButton.Parent = TabHolder
 
+    -- Create Scrollable Frame for the Page
     Page.Size = UDim2.new(1, 0, 1, -65)
     Page.Position = UDim2.new(0, 0, 0, 65)
     Page.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-    Page.Visible = false
+    Page.ScrollBarThickness = 5
+    Page.ScrollingDirection = Enum.ScrollingDirection.Y
+    Page.AutomaticCanvasSize = Enum.AutomaticSize.Y
+    Page.CanvasSize = UDim2.new(0, 0, 0, 0)
     Page.Parent = MainFrame
 
     table.insert(Tabs, TabButton)
@@ -108,8 +98,6 @@ local function CreateTab(name)
 
     return Page
 end
-
-
 
 -- Function to Create a Button (For Any Tab)
 local function CreateButton(parent, text, callback)
@@ -130,16 +118,12 @@ local function CreateButton(parent, text, callback)
     return Button
 end
 
-
-
 -- Add Layout to All Tabs Automatically
 for _, page in pairs(Pages) do
     local layout = Instance.new("UIListLayout")
     layout.Parent = page
     layout.Padding = UDim.new(0, 5)
 end
-
-
 
 -- Create Tabs
 local tab1 = CreateTab("Tab 1")
@@ -151,11 +135,37 @@ local settingsTab = CreateTab("Settings")
 -- Show first tab by default
 Pages[1].Visible = true
 
-
-
 -- Now You Can Easily Add Buttons to Any Tab!
-CreateButton(Pages[1], "Tab 1 Button", function()
-    print("Tab 1 Button clicked!")
+CreateButton(Pages[1], "Tab 1 1Button", function()
+    print("Tab 1 1Button clicked!")
+end)
+
+CreateButton(Pages[1], "Tab 1 2Button", function()
+    print("Tab 1 2Button clicked!")
+end)
+
+CreateButton(Pages[1], "Tab 1 3Button", function()
+    print("Tab 1 3Button clicked!")
+end)
+
+CreateButton(Pages[1], "Tab 1 4Button", function()
+    print("Tab 1 4Button clicked!")
+end)
+
+CreateButton(Pages[1], "Tab 1 5Button", function()
+    print("Tab 1 5Button clicked!")
+end)
+
+CreateButton(Pages[1], "Tab 1 6Button", function()
+    print("Tab 1 6Button clicked!")
+end)
+
+CreateButton(Pages[1], "Tab 1 7Button", function()
+    print("Tab 1 7Button clicked!")
+end)
+
+CreateButton(Pages[1], "Tab 1 8Button", function()
+    print("Tab 1 8Button clicked!")
 end)
 
 CreateButton(Pages[2], "Tab 2 Action", function()
@@ -174,8 +184,6 @@ end)
 CreateButton(Pages[5], "Close GUI", function()
     ScreenGui.Enabled = false
 end)
-
-
 
 -- Drag System (Supports **MOBILE** & PC)
 local isDragging = false
